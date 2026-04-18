@@ -15,6 +15,13 @@ public class ReservationsController : ControllerBase
     _reservationService = reservationService;
   }
 
+  [HttpDelete("{id:guid}")]
+  public async Task<IActionResult> Delete(Guid id)
+  {
+    var deleted = await _reservationService.DeleteAsync(id);
+    return deleted ? NoContent() : NotFound();
+  }
+
   [HttpPost]
   public async Task<IActionResult> Create([FromBody] CreateReservationRequest request)
   {

@@ -19,11 +19,27 @@ public class ReservationRepository : IReservationRepository
     await _context.SaveChangesAsync();
     return reservation;
   }
-    public async Task<List<Reservation>> GetByClassroomAndDateAsync(Guid classroomId, DateOnly date)
+  public async Task<List<Reservation>> GetByClassroomAndDateAsync(Guid classroomId, DateOnly date)
   {
     return await _context.Reservations
         .AsNoTracking()
         .Where(r => r.ClassroomId == classroomId && r.Date == date)
         .ToListAsync();
+  }
+
+  public async Task<Reservation?> GetByIdAsync(Guid id)
+  {
+    return await _context.Reservations
+        .FirstOrDefaultAsync(r => r.Id == id);
+  }
+
+  public async Task<bool> DeleteAsync(Guid id)
+  {
+    var reservation = await GetByIdAsync(id);
+    if (reservation is null) return false;
+
+    _context.Reservations.Remove(reservation);
+    await _context.SaveChangesAsync();
+    return true;
   }
 }
