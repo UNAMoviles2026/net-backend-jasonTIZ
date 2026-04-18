@@ -8,4 +8,5 @@ public interface IReservationRepository
   Task<List<Reservation>> GetByClassroomAndDateAsync(Guid classroomId, DateOnly date);
   Task<Reservation?> GetByIdAsync(Guid id);
   Task<bool> DeleteAsync(Guid id);
+  Task<List<Reservation>> GetByDateAsync(DateOnly date);
 }
